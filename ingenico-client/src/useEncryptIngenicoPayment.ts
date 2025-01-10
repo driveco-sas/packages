@@ -50,12 +50,15 @@ const useEncryptEngenicoPayment = async ({
 
         const typeCreditCard = cardInfo && cardValidator.number(cardInfo['cc-number']).card?.type
 
+        // @ts-expect-error
         const paymentProductId = getPaymentProductId(typeCreditCard)
 
         const basicPaymentProducts = session.getBasicPaymentProducts(paymentDetails)
+        // @ts-expect-error
         const paymentProduct = await session.getPaymentProduct(paymentProductId, paymentDetails)
 
         const basicPaymentProduct = (await basicPaymentProducts).getBasicPaymentProduct(
+            // @ts-expect-error
             paymentProductId
         )
 
@@ -64,13 +67,18 @@ const useEncryptEngenicoPayment = async ({
         }
 
         const cardDetails = {
+            // @ts-expect-error
             cardNumber: cardInfo['cc-number'].replace(/\s/g, ''),
+            // @ts-expect-error
             ccv: cardInfo['cc-csc'],
+            // @ts-expect-error
             cardholderName: toAscii(cardInfo['cc-name']),
+            // @ts-expect-error
             expiryDate: `${cardInfo['cc-exp-month']}${cardInfo['cc-exp-year']}`
         }
 
         const accountOnFileId = 3
+        // @ts-expect-error
         const accountOnFile = basicPaymentProduct.getAccountOnFile(accountOnFileId)
         const paymentRequest = session.getPaymentRequest()
 
@@ -111,7 +119,9 @@ const useEncryptEngenicoPayment = async ({
     }
 
     return {
+        // @ts-expect-error
         encryptedPaymentRequest,
+        // @ts-expect-error
         paymentProductId
     }
 }
